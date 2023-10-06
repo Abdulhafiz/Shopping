@@ -20,6 +20,7 @@ public class MelonDiscount implements Discount{
     private boolean active;
 
     /**
+     * Melon discount = free product quantity * price
      * @param item with one product with quantity(s)
      * @return total discount
      */
