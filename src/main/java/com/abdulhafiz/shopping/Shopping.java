@@ -25,17 +25,14 @@ public class Shopping implements ShoppingService {
      */
     @Override
     public BigDecimal calculateTotalDiscount(Basket basket, List<Discount> discountList) {
-        BigDecimal totalDiscount = new BigDecimal("0.00");
-
-        for(Item item: basket.getBasketItems()){
-            Discount discount = discountList.stream()
-                    .filter(d -> d.getProductId().equalsIgnoreCase(item.getProduct().getId()) && d.isActive())
-                    .findAny()
-                    .orElse(null);
-            if (discount != null){
-                totalDiscount = totalDiscount.add(discount.getDiscountAmount(item));
-            }
-        }
-        return totalDiscount.setScale(2, RoundingMode.CEILING);
+        return basket.getBasketItems().stream()
+                .map(item -> discountList.stream()
+                        .filter(discount -> discount.getProductId().equals(item.getProduct().getId()) && discount.isActive())
+                        .findAny()
+                        .map(discount -> discount.getDiscountAmount(item))
+                        .orElse(BigDecimal.ZERO)
+                )
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .setScale(2, RoundingMode.CEILING);
     }
 }
