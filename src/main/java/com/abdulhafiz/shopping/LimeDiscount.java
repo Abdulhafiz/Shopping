@@ -19,7 +19,7 @@ public class LimeDiscount implements Discount{
     private boolean active;
 
     /**
-     *  Limes discount = minus milk-discount int(quanty/3) * 0.60 = int(7/3) * 0.60 = 2 * 0.60 = 1.2
+     * Limes discount = lime-discount int(quanty/3) * (price 0.15) = int(7/3) * 0.15 = 2 * 0.15 = 0.30
      * @param item one item with quantity(s)
      * @return discount amount for one item
      */
