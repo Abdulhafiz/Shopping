@@ -13,8 +13,9 @@ public class Shopping implements ShoppingService {
     public BigDecimal calculateGrossPrice(Basket basket) {
 
        return BigDecimal.valueOf(basket.getBasketItems().stream()
-               .mapToDouble(item -> item.getQuantity() * item.getProduct().getPrice())
-               .reduce(0, Double::sum)).setScale(2, RoundingMode.HALF_EVEN);
+                       .mapToDouble(item -> item.getQuantity() * item.getProduct().getPrice())
+                       .reduce(0, Double::sum))
+               .setScale(2, RoundingMode.HALF_EVEN);
     }
 
     /**
