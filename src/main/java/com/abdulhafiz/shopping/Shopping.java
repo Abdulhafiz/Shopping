@@ -1,5 +1,7 @@
 package com.abdulhafiz.shopping;
 
+import com.abdulhafiz.shopping.basket.Basket;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
@@ -25,13 +27,13 @@ public class Shopping implements ShoppingService {
      * @return total discount
      */
     @Override
-    public BigDecimal calculateTotalDiscount(Basket basket, List<Discount> discountList) {
+    public BigDecimal calculateTotalDiscount(Basket basket, List<ProductDiscount> discountList) {
         return basket.getBasketItems().stream()
                 .map(item -> discountList.stream()
-                        .filter(discount -> discount.getProductId().equals(item.getProduct().getId()) && discount.isActive())
+                        .filter(discount -> discount.getProduct().getId().equals(item.getProduct().getId()) && discount.isActive())
                         .findAny()
-                        .map(discount -> discount.getDiscountAmount(item))
-                        .orElse(BigDecimal.ZERO)
+                        .map(discount -> discount.getDiscount().getDiscountAmount(item))
+                        .orElse(BigDecimal.valueOf(item.getProduct().getPrice()*item.getQuantity()))
                 )
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .setScale(2, RoundingMode.CEILING);

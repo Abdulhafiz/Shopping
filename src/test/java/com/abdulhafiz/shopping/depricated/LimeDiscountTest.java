@@ -1,5 +1,8 @@
-package com.abdulhafiz.shopping;
+package com.abdulhafiz.shopping.depricated;
 
+import com.abdulhafiz.shopping.basket.Item;
+import com.abdulhafiz.shopping.basket.Product;
+import com.abdulhafiz.shopping.discount.depricated.LimeDiscount;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

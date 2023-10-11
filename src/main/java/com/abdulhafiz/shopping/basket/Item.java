@@ -1,4 +1,4 @@
-package com.abdulhafiz.shopping;
+package com.abdulhafiz.shopping.basket;
 
 import lombok.Builder;
 import lombok.Data;

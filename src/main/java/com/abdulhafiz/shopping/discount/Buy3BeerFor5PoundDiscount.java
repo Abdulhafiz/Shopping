@@ -1,5 +1,6 @@
-package com.abdulhafiz.shopping;
+package com.abdulhafiz.shopping.discount;
 
+import com.abdulhafiz.shopping.basket.Item;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,12 +12,13 @@ import java.math.RoundingMode;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LimeDiscount implements Discount{
+public class Buy3BeerFor5PoundDiscount implements Discount{
 
     private String discountCode;
     private String description;
-    private String productId;
-    private boolean active;
+    private int discountQuantity;
+    private double discountPrice;
+
 
     /**
      * Limes discount = lime-discount int(quanty/3) * (price 0.15) = int(7/3) * 0.15 = 2 * 0.15 = 0.30
@@ -25,8 +27,9 @@ public class LimeDiscount implements Discount{
      */
     @Override
     public BigDecimal getDiscountAmount(Item item) {
-        int quantity = (item.getQuantity()/3);
-        double discountPrice= quantity * item.getProduct().getPrice();
+        int fullSetsOfBeers = item.getQuantity()/ getDiscountQuantity();
+        int remainingBeers = item.getQuantity() % getDiscountQuantity();
+        double discountPrice= fullSetsOfBeers * getDiscountPrice() + (remainingBeers*item.getProduct().getPrice());
 
         return new BigDecimal(discountPrice).setScale(2, RoundingMode.CEILING);
     }

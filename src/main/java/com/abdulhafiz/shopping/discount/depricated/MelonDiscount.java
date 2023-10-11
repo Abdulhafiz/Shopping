@@ -1,5 +1,7 @@
-package com.abdulhafiz.shopping;
+package com.abdulhafiz.shopping.discount.depricated;
 
+import com.abdulhafiz.shopping.discount.Discount;
+import com.abdulhafiz.shopping.basket.Item;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +14,7 @@ import java.math.RoundingMode;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MelonDiscount implements Discount{
+public class MelonDiscount implements Discount {
 
     private String discountCode;
     private String description;
