@@ -74,7 +74,8 @@ class ShoppingTest {
         List<Item> items = Arrays.asList(item1, item2);
         Basket basket = Basket.builder().basketItems(items).build();
 
-        BigDecimal actualTotalDiscount = shopping.calculateTotalDiscount(basket, productDiscountList);
+        List<ProductDiscount> basketDiscountList = getBasketItemRelatedDiscount(basket);
+        BigDecimal actualTotalDiscount = shopping.calculateTotalDiscount(basket, basketDiscountList);
         BigDecimal actualGrossPrice = shopping.calculateGrossPrice(basket);
         basket.setGrossPrice(actualGrossPrice);
         basket.setTotalDiscount(actualGrossPrice.subtract(actualTotalDiscount));
@@ -95,7 +96,8 @@ class ShoppingTest {
         List<Item> items = Arrays.asList(item1, item2, item3);
         Basket basket = Basket.builder().basketItems(items).build();
 
-        BigDecimal actualTotalDiscount = shopping.calculateTotalDiscount(basket, productDiscountList);
+        List<ProductDiscount> basketDiscountList = getBasketItemRelatedDiscount(basket);
+        BigDecimal actualTotalDiscount = shopping.calculateTotalDiscount(basket, basketDiscountList);
         BigDecimal actualGrossPrice = shopping.calculateGrossPrice(basket);
 
         basket.setGrossPrice(actualGrossPrice);
@@ -117,7 +119,8 @@ class ShoppingTest {
         List<Item> items = Arrays.asList(item1, item2, item3);
         Basket basket = Basket.builder().basketItems(items).build();
 
-        BigDecimal actualTotalDiscount = shopping.calculateTotalDiscount(basket, productDiscountList);
+        List<ProductDiscount> basketDiscountList = getBasketItemRelatedDiscount(basket);
+        BigDecimal actualTotalDiscount = shopping.calculateTotalDiscount(basket, basketDiscountList);
         BigDecimal actualGrossPrice = shopping.calculateGrossPrice(basket);
 
         basket.setGrossPrice(actualGrossPrice);
@@ -139,7 +142,8 @@ class ShoppingTest {
         List<Item> items = Arrays.asList(item1, item2, item3);
         Basket basket = Basket.builder().basketItems(items).build();
 
-        BigDecimal actualTotalDiscount = shopping.calculateTotalDiscount(basket, productDiscountList);
+        List<ProductDiscount> basketDiscountList = getBasketItemRelatedDiscount(basket);
+        BigDecimal actualTotalDiscount = shopping.calculateTotalDiscount(basket, basketDiscountList);
         BigDecimal actualGrossPrice = shopping.calculateGrossPrice(basket);
 
         basket.setGrossPrice(actualGrossPrice);
@@ -153,7 +157,6 @@ class ShoppingTest {
         assertEquals(expectedNetPrice, basket.getNetPrice());
     }
 
-
     @Test
     public void testCalculateTotalDiscountOfAmountAppleLimeMelonBeer() {
         Item item1 = Item.builder().product(apple).quantity(2).build();
@@ -162,7 +165,8 @@ class ShoppingTest {
         List<Item> items = Arrays.asList(item1, item2, item3);
         Basket basket = Basket.builder().basketItems(items).build();
 
-        BigDecimal actualTotalDiscount = shopping.calculateTotalDiscount(basket, productDiscountList);
+        List<ProductDiscount> basketDiscountList = getBasketItemRelatedDiscount(basket);
+        BigDecimal actualTotalDiscount = shopping.calculateTotalDiscount(basket, basketDiscountList);
         BigDecimal actualGrossPrice = shopping.calculateGrossPrice(basket);
 
         basket.setGrossPrice(actualGrossPrice);
@@ -176,5 +180,15 @@ class ShoppingTest {
         assertEquals(expectedNetPrice, basket.getNetPrice());
     }
 
-
+    private List<ProductDiscount> getBasketItemRelatedDiscount(Basket basket) {
+        return  basket.getBasketItems().stream()
+                .flatMap(item ->
+                        productDiscountList.stream()
+                                .filter(productDiscount ->
+                                        productDiscount.getProduct().getId().equals(item.getProduct().getId())
+                                                && productDiscount.isActive()
+                                )
+                )
+                .toList();
+    }
 }
